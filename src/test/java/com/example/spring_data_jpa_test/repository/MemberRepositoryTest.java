@@ -29,6 +29,7 @@ class MemberRepositoryTest {
         return member;
     }
 
+    //TODO : spring data jpa JOIN관계 저장 검색
     public MemberDesc saveMemberDesc1(Member member) {
         MemberDesc desc = new MemberDesc();
         desc.setMemberId(member.getMemberId());
