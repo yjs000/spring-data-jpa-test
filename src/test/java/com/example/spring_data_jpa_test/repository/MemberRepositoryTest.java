@@ -22,7 +22,10 @@ class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 
-//    @Test
+    final String MEMBER1_DESC = "my description";
+
+
+    // =============== 1 ===============
     public Member saveMember1() {
         Member member = new Member();
         memberRepository.save(member);
@@ -33,7 +36,7 @@ class MemberRepositoryTest {
     public MemberDesc saveMemberDesc1(Member member) {
         MemberDesc desc = new MemberDesc();
         desc.setMemberId(member.getMemberId());
-        desc.setDesc("my description");
+        desc.setDesc(MEMBER1_DESC);
         memberDescRepository.save(desc);
         return desc;
     }
@@ -54,6 +57,15 @@ class MemberRepositoryTest {
         Assertions.assertThat(result == memberDesc).isEqualTo(true);
     }
 
+    @Test
+    void findAllMemberDesc() {
+        Member member1 = saveMember1();
+        MemberDesc memberDesc = saveMemberDesc1(member1);
+
+        List<MemberDesc> all = memberDescRepository.findAll();
+        Assertions.assertThat(all.size()).isEqualTo(1);
+
+    }
 
     @Test
     public void findAllMember() {
@@ -64,11 +76,44 @@ class MemberRepositoryTest {
         Assertions.assertThat(memberList.size()).isEqualTo(1);
     }
 
-    @Test
-    public void findAllMemberWithDesc() {
-        saveMember1();
-        List<Member> memberList = memberRepository.findAll();
 
-        System.out.println(memberList.get(0).getDesc());
+//    @Test
+//    public void findAllMemberWithDesc() {
+//        Member member1 = saveMember1();
+//        MemberDesc memberDesc = saveMemberDesc1(member1);
+//        List<Member> memberList = memberRepository.findAll();
+//
+//        Assertions.assertThat(memberList.get(0).getDesc()).isEqualTo(MEMBER1_DESC);
+//    }
+
+    // ============= 1 =================
+
+    /**
+     * 1. Member에서 OneToOne Eager로 JOIN하면 JOIN되지 않음 Member만 select
+     * 2. 반대로? => 마찬가지로 MemberDesc만 select
+     * 3. 양방향 (MemberDesc주)
+     */
+
+    // ========= 2 ================
+    @Test
+    void findAllMemberWithDesc_2() {
+        Member member1 = saveMember1();
+        MemberDesc memberDesc = saveMemberDesc1(member1);
+
+        List<MemberDesc> descList = memberDescRepository.findAll();
+        System.out.println(descList.toString());
+    }
+    // ========= 2 ================
+
+    @Test
+    void findAllMemberWithDesc_3() {
+        Member member1 = saveMember1();
+        MemberDesc memberDesc = saveMemberDesc1(member1);
+
+        List<MemberDesc> descList = memberDescRepository.findAll();
+        System.out.println(descList.toString());
+
+        List<Member> memberList = memberRepository.findAll();
+        System.out.println(memberList.toString());
     }
 }

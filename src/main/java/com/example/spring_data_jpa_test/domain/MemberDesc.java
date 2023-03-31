@@ -2,10 +2,7 @@ package com.example.spring_data_jpa_test.domain;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -17,5 +14,7 @@ public class MemberDesc {
 
     private String desc;
 
-
+    @OneToOne
+    @JoinColumn
+    private Member member;
 }

@@ -30,7 +30,6 @@ public class Member {
     @NotNull
     private String name;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "MEMBER_ID")
+    @OneToOne(mappedBy = "member")
     private MemberDesc desc;
 }
